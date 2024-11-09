@@ -1,9 +1,7 @@
 import React from 'react'
-import { Button } from './_components/ui/button';
 import { UserButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { dark } from '@clerk/themes';
 
 const Home = async () => {
   const { userId } = await auth();
