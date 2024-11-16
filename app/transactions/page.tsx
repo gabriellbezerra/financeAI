@@ -11,7 +11,7 @@ const TransactionsPage = async () => {
             {/* Título e Botão */}
             <div className="flex w-full items-center justify-between pl-6 pr-6">
                 <h1 className="font-bold text-2xl ">Transações</h1>
-                <Button className="rounded-full">Adicionar transação <ArrowDownUpIcon/></Button>
+                <Button className="rounded-full font-extrabold">Adicionar transação <ArrowDownUpIcon/></Button>
             </div>
             {/* Tabela */}
             <DataTable columns={transactionColumns} data={transactions}/>

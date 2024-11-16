@@ -23,7 +23,7 @@ const TransactionTypeBadge = ({ transaction }: TransactionTypeBadgeProps) => {
       </Badge>
     );
   }
-  if (transaction.type === TransactionType.INVESMENT){
+  if (transaction.type === TransactionType.INVESTMENT){
     return (
         <Badge className="font bold bg-white bg-opacity-10 text-white">
           <CircleIcon className="mr-2 fill-white" size={10} />

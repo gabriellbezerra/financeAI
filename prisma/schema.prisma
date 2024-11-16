@@ -29,7 +29,7 @@ model Transaction {
 enum TransactionType {
   DEPOSIT
   EXPENSE
-  INVESMENT
+  INVESTMENT
 }
 
 enum TransactionCategory {
@@ -48,7 +48,7 @@ enum TransactionPaymentMethod {
   CREDIT_CARD
   DEBIT_CARD
   BANK_TRANSFER
-  bANK_SLIP
+  BANK_SLIP
   CASH
   PIX
   OTHER
