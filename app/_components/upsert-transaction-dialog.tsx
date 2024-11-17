@@ -59,7 +59,8 @@ const formSchema = z.object({
     })
     .positive({
       message: "O valor deve ser positivo.",
-    }),
+    })
+    .nullable(),
   type: z.nativeEnum(TransactionType, {
     required_error: "O tipo é obrigatório.",
   }),
@@ -96,6 +97,13 @@ const UpsertTransactionDialog = ({
 
   const onSubmit = async (data: FormSchema) => {
     try {
+      // Verificar se o valor do amount não é 0 ou null
+      if (data.amount <= 0 || isNaN(data.amount)) {
+        alert("O valor deve ser maior que zero.");
+        return;
+      }
+
+      // Chamar o método de upsert
       await upsertTransaction({ ...data, id: transactionId });
       setIsOpen(false);
       form.reset();
@@ -149,9 +157,9 @@ const UpsertTransactionDialog = ({
                   <FormControl>
                     <MoneyInput
                       placeholder="Digite o valor..."
-                      value={field.value}
-                      onValueChange={({ floatValue }) =>
-                        field.onChange(floatValue)
+                      value={field.value || ""}
+                      onValueChange={
+                        ({ floatValue }) => field.onChange(floatValue || "") // Garantir que é numérico ou vazio
                       }
                       onBlur={field.onBlur}
                       disabled={field.disabled}
