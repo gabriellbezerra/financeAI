@@ -40,3 +40,6 @@ next-env.d.ts
 
 # issues
 issues.txt
+
+# Docker compose
+docker-compose.yml
