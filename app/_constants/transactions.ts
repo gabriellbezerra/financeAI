@@ -2,9 +2,9 @@ import {
     TransactionCategory,
     TransactionPaymentMethod,
     TransactionType,
-  } from "@prisma/client";
+  } from './transaction.enums'
   
-  export const TRANSACTION_PAYMENT_METHOD_ICONS = {
+  export const TRANSACTION_PAYMENT_METHOD_ICONS: Record<TransactionPaymentMethod, string> = {
     [TransactionPaymentMethod.CREDIT_CARD]: "credit-card.svg",
     [TransactionPaymentMethod.DEBIT_CARD]: "debit-card.svg",
     [TransactionPaymentMethod.BANK_TRANSFER]: "bank-transfer.svg",
@@ -108,10 +108,6 @@ import {
       label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.HOUSING],
     },
     {
-      value: TransactionCategory.OTHER,
-      label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.OTHER],
-    },
-    {
       value: TransactionCategory.SALARY,
       label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.SALARY],
     },
@@ -122,5 +118,9 @@ import {
     {
       value: TransactionCategory.UTILITY,
       label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.UTILITY],
+    },
+    {
+      value: TransactionCategory.OTHER,
+      label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.OTHER],
     },
   ];

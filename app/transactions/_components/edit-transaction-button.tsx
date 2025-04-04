@@ -3,6 +3,7 @@
 import { Button } from "@/app/_components/ui/button";
 import UpsertTransactionDialog from "@/app/_components/upsert-transaction-dialog";
 import { Transaction } from "@prisma/client";
+import { TransactionType, TransactionCategory, TransactionPaymentMethod } from "@/app/_constants/transaction.enums";
 import { PencilIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -29,6 +30,9 @@ const EditTransactionButton = ({ transaction }: EditTransactionButtonProps) => {
         defaultValues={{
           ...transaction,
           amount: Number(transaction.amount),
+          type: transaction.type as TransactionType,
+          category: transaction.category as TransactionCategory,
+          paymentMethod: transaction.paymentMethod as TransactionPaymentMethod,
         }}
         transactionId={transaction.id}
       />

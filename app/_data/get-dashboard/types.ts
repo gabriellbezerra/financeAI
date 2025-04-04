@@ -1,4 +1,4 @@
-import { TransactionCategory, TransactionType } from "@prisma/client";
+import { TransactionCategory, TransactionType } from "../../_constants/transaction.enums";
 
 export type TransactionPercentagePerType = {
   [key in TransactionType]: number;

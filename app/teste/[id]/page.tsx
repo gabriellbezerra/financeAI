@@ -1,7 +1,7 @@
 "use client"; // Necessário para habilitar hooks do lado do cliente
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'; //Outra forma de utilizar rotas, aparentemente necessário para transferir informações via body de uma página para outra.
+import { useSearchParams } from 'next/navigation';
 
 interface PageProps {
     params: {
@@ -14,20 +14,20 @@ interface BodyData {
     age: number;
 }
 
-const test = ({ params }: PageProps) => {
-
-    const router = useRouter();
+const Test = ({ params }: PageProps) => {
+    const searchParams = useSearchParams();
     const { id } = params;
     const [bodyData, setBodyData] = useState<BodyData | null>(null);
 
     useEffect(() => {
-        // Verifica se os dados extras estão no state da navegação
-        if (router.state) {
-            setBodyData(router.state as ExtraData);
+        const name = searchParams.get('name');
+        const age = searchParams.get('age');
+        if (name && age) {
+            setBodyData({ name, age: parseInt(age) });
         }
-      }, [router.state]);
+    }, [searchParams]);
 
-      return (
+    return (
         <div>
           <h1>ID: {id}</h1>
           {bodyData ? (
@@ -39,7 +39,7 @@ const test = ({ params }: PageProps) => {
             <p>No additional data provided</p>
           )}
         </div>
-      );
+    );
 };
  
-export default test;
+export default Test;

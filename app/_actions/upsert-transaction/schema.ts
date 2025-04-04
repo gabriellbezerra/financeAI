@@ -2,7 +2,7 @@ import {
   TransactionCategory,
   TransactionPaymentMethod,
   TransactionType,
-} from "@prisma/client";
+} from "../../_constants/transaction.enums";
 import { z } from "zod";
 
 export const upsertTransactionSchema = z.object({

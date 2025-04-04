@@ -6,6 +6,7 @@ import TransactionTypeBadge from "../_components/typeBadge";
 import { TRANSACTION_CATEGORY_LABELS, TRANSACTION_PAYMENT_METHOD_LABELS } from "@/app/_constants/transactions";
 import EditTransactionButton from "../_components/edit-transaction-button";
 import DeleteTransactionButton from "../_components/delete-transaction-button";
+import { TransactionCategory, TransactionPaymentMethod } from "@/app/_constants/transaction.enums";
 
 export const transactionColumns: ColumnDef<Transaction>[] = [
     {
@@ -23,13 +24,13 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
         accessorKey: "category",
         header:"Categoria",
         cell: ({row: {original: transaction}}) => 
-            TRANSACTION_CATEGORY_LABELS[transaction.category],
+            TRANSACTION_CATEGORY_LABELS[transaction.category as TransactionCategory],
     },
     {
         accessorKey:"paymentMethod",
         header:"Forma de pagamento",
         cell: ({row: {original: transaction}}) => 
-            TRANSACTION_PAYMENT_METHOD_LABELS[transaction.paymentMethod],
+            TRANSACTION_PAYMENT_METHOD_LABELS[transaction.paymentMethod as TransactionPaymentMethod],
     },
     {
         accessorKey:"date",

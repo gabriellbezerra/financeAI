@@ -37,7 +37,7 @@ import {
   TransactionType,
   TransactionCategory,
   TransactionPaymentMethod,
-} from "@prisma/client";
+} from '../_constants/transaction.enums';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { upsertTransaction } from "../_actions/upsert-transaction";
@@ -98,13 +98,13 @@ const UpsertTransactionDialog = ({
   const onSubmit = async (data: FormSchema) => {
     try {
       // Verificar se o valor do amount não é 0 ou null
-      if (data.amount <= 0 || isNaN(data.amount)) {
+      if (!data.amount || data.amount <= 0) {
         alert("O valor deve ser maior que zero.");
         return;
       }
 
       // Chamar o método de upsert
-      await upsertTransaction({ ...data, id: transactionId });
+      await upsertTransaction({ ...data, id: transactionId, amount: data.amount });
       setIsOpen(false);
       form.reset();
     } catch (error) {
