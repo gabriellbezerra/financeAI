@@ -43,3 +43,5 @@ issues.txt
 
 # Docker compose
 docker-compose.yml
+
+prisma/dev.db
