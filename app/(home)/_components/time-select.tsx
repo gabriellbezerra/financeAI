@@ -24,29 +24,55 @@ const MONTH_OPTIONS = [
   { value: "12", label: "December" },
 ];
 
+const YEAR_OPTIONS = ["2023", "2024", "2025"];
+
+function getCurrentMonthYear() {
+  const now = new Date();
+  return {
+    month: String(now.getMonth() + 1).padStart(2, "0"),
+    year: String(now.getFullYear()),
+  };
+}
+
 const TimeSelect = () => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
-  const month = searchParams.get("month");
-  const handleMonthChange = (month: string) => {
-    push(`/?month=${month}`);
+  const { month: defaultMonth, year: defaultYear } = getCurrentMonthYear();
+  const month = searchParams.get("month") ?? defaultMonth;
+  const year = searchParams.get("year") ?? defaultYear;
+
+  const handleChange = (m: string = month, y: string = year) => {
+    push(`/?month=${m}&year=${y}`);
   };
+
   return (
-    <Select
-      onValueChange={(value) => handleMonthChange(value)}
-      defaultValue={month ?? ""}
-    >
-      <SelectTrigger className="w-[150px] rounded-full">
-        <SelectValue placeholder="Mês" />
-      </SelectTrigger>
-      <SelectContent>
-        {MONTH_OPTIONS.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="flex gap-2">
+      <Select defaultValue={month} onValueChange={(m) => handleChange(m, year)}>
+        <SelectTrigger className="w-[140px] rounded-full">
+          <SelectValue placeholder="Mês" />
+        </SelectTrigger>
+        <SelectContent>
+          {MONTH_OPTIONS.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <Select defaultValue={year} onValueChange={(y) => handleChange(month, y)}>
+        <SelectTrigger className="w-[110px] rounded-full">
+          <SelectValue placeholder="Ano" />
+        </SelectTrigger>
+        <SelectContent>
+          {YEAR_OPTIONS.map((y) => (
+            <SelectItem key={y} value={y}>
+              {y}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };
 

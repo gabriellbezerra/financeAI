@@ -14,25 +14,29 @@ import AiReportButton from "./_components/ai-report-button";
 interface HomeProps {
   searchParams: {
     month: string;
+    year: string;
   };
 }
 
-const Home = async ({ searchParams: { month } }: HomeProps) => {
+const Home = async ({ searchParams: { month, year } }: HomeProps) => {
   const { userId } = await auth();
   if (!userId) {
     redirect("/login");
   }
   const monthIsInvalid = !month || !isMatch(month, "MM");
-  if (monthIsInvalid) {
-    redirect(`?month=${new Date().getMonth() + 1}`);
+  const yearIsInvalid = !year || !isMatch(year, "yyyy");
+  if (monthIsInvalid || yearIsInvalid) {
+    const currentMonth = String(new Date().getMonth() + 1).padStart(2, "0");
+    const currentYear = String(new Date().getFullYear());
+    redirect(`?month=${currentMonth}&year=${currentYear}`);
   }
-  const dashboard = await getDashboard(month);
+  const dashboard = await getDashboard(month, year);
   const userCanAddTransaction = await canUserAddTransaction();
   const user = await clerkClient().users.getUser(userId);
   return (
     <>
       <Navbar />
-      <div className="flex h-full flex-col space-y-6 overflow-hidden p-6">
+      <div className="flex h-100% flex-col space-y-6 overflow-hidden p-6">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <div className="flex items-center gap-3">

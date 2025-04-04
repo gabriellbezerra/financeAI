@@ -1,18 +1,23 @@
 import { db } from "@/app/_lib/prisma";
-import { TransactionType } from "@prisma/client";
+import { TransactionType, TransactionCategory } from '../../_constants/transaction.enums';
 import { TotalExpensePerCategory, TransactionPercentagePerType } from "./types";
 import { auth } from "@clerk/nextjs/server";
+import { startOfMonth, endOfMonth } from "date-fns";
 
-export const getDashboard = async (month: string) => {
+export const getDashboard = async (month: string, year: string) => {
   const { userId } = await auth();
   if (!userId) {
     throw new Error("Unauthorized");
   }
+  const referenceDate = new Date(`${year}-${month}-15`);
+  const start = startOfMonth(referenceDate);
+  const end = endOfMonth(referenceDate);
+
   const where = {
     userId,
     date: {
-      gte: new Date(`2024-${month}-01`),
-      lt: new Date(`2024-${month}-31`),
+      gte: start,
+      lte: end,
     },
   };
   const depositsTotal = Number(
@@ -39,6 +44,7 @@ export const getDashboard = async (month: string) => {
       })
     )?._sum?.amount,
   );
+  console.log("TransactionType.EXPENSE:", TransactionType.EXPENSE);
   const balance = depositsTotal - investmentsTotal - expensesTotal;
   const transactionsTotal = Number(
     (
@@ -71,7 +77,7 @@ export const getDashboard = async (month: string) => {
       },
     })
   ).map((category) => ({
-    category: category.category,
+    category: category.category as TransactionCategory,
     totalAmount: Number(category._sum.amount),
     percentageOfTotal: Math.round(
       (Number(category._sum.amount) / Number(expensesTotal)) * 100,
@@ -82,6 +88,16 @@ export const getDashboard = async (month: string) => {
     orderBy: { date: "desc" },
     take: 15,
   });
+
+  console.log("DEPOSITS", depositsTotal);
+  console.log("EXPENSES", expensesTotal);
+  console.log("INVESTMENTS", investmentsTotal);
+  console.log("CATEGORY GROUP", totalExpensePerCategory);
+  console.log("LAST TRANSACTIONS", lastTransactions.length);
+  console.log(userId)
+  console.log("start:", start);
+  console.log("end:", end);
+
   return {
     balance,
     depositsTotal,
